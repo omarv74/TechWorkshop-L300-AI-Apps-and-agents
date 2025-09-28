@@ -74,8 +74,8 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  jekyll (~> 4.3)
-  just-the-docs (= 0.4.2)
+  jekyll (~> 4.4.1)
+  just-the-docs (= 0.10.1)
 
 BUNDLED WITH
    2.3.9
