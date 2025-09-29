@@ -168,7 +168,7 @@ resource appServiceApp 'Microsoft.Web/sites@2022-09-01' = {
     httpsOnly: true
     clientAffinityEnabled: false
     siteConfig: {
-      linuxFxVersion: 'DOCKER|${containerRegistry.name}.azurecr.io/${uniqueString(resourceGroup().id)}/techexcel/csdash'
+      linuxFxVersion: 'DOCKER|${containerRegistry.name}.azurecr.io/${uniqueString(resourceGroup().id)}/techworkshopl300/zava'
       http20Enabled: true
       minTlsVersion: '1.2'
       appCommandLine: ''

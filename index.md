@@ -4,7 +4,7 @@ layout: home
 nav_order: 1
 ---
 
-# TechExcel: AI Apps and Agents
+# TechWorkshop L300: AI Apps and Agents
 
 This lab teaches you how to design and build AI applications and agents using Azure AI Foundry. You will learn how to create AI-powered applications that can interact with users, process natural language, and perform tasks based on user guidance. You will also learn how to monitor, troubleshoot, and perform red teaming activities against agents.
 
@@ -20,7 +20,7 @@ This lab has exercises on:
 * Red Teaming AI Agents
 * Resource cleanup
 
-The lab is available as GitHub pages [here](https://microsoft.github.io/TechExcel-AI-Apps-and-Agents/).
+The lab is available as GitHub pages [here](https://microsoft.github.io/TechWorkshop-L300-AI-Apps-and-agents/).
 
 ## Prerequisites
 
