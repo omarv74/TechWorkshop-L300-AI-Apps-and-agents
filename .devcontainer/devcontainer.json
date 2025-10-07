@@ -1,0 +1,11 @@
+{
+    "name": "Codespaces with Azure CLI",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "settings": {},
+    "extensions": [
+        "ms-azuretools.vscode-azurecli"
+    ],
+    "postCreateCommand": "az --version && azd version"
+}
