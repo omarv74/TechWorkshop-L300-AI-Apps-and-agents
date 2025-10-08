@@ -5,7 +5,7 @@ nav_order: 5
 has_children: true
 ---
 
-# Exercise 04 - Observe model utilization in AI Foundry
+# Exercise 04: Observe model utilization in AI Foundry
 
 ## Scenario
 

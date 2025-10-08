@@ -5,7 +5,7 @@ nav_order: 4
 has_children: true
 ---
 
-# Exercise 03 - Extend the shopping assistant using the A2A Protocol
+# Exercise 03: Extend the shopping assistant using the A2A Protocol
 
 ## Scenario
 

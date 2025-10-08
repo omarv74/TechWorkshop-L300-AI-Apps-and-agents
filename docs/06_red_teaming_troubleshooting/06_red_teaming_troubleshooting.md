@@ -5,7 +5,7 @@ nav_order: 7
 has_children: true
 ---
 
-# Exercise 06 - AI-enhanced red teaming
+# Exercise 06: AI-enhanced red teaming
 
 ## Scenario
 

@@ -5,7 +5,7 @@ nav_order: 3
 has_children: true
 ---
 
-# Exercise 02 - Implement a multimodal AI shopping assistant
+# Exercise 02: Implement a multimodal AI shopping assistant
 
 ## Scenario
 
