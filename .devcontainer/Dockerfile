@@ -10,3 +10,5 @@ RUN curl -fsSL https://aka.ms/install-azd.sh | bash
 
 # [Optional] Install any other dependencies here
 # RUN apt-get update && apt-get install -y <package-name>
+RUN apt update
+RUN apt -y install python3 
