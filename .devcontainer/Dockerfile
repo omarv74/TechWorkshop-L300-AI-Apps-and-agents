@@ -13,9 +13,9 @@ RUN curl -fsSL https://aka.ms/install-azd.sh | bash
 RUN apt update
 
 # Install Bicep CLI
-RUN curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64 \
-	&& chmod +x ./bicep \
-	&& mv ./bicep /usr/local/bin/bicep
+# RUN curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64 \
+# 	&& chmod +x ./bicep \
+# 	&& mv ./bicep /usr/local/bin/bicep
 
 # Verify installation
 RUN bicep --version
