@@ -3,9 +3,15 @@
     "build": {
         "dockerfile": "Dockerfile"
     },
-    "settings": {},
+    "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+
     "extensions": [
-        "ms-azuretools.vscode-azurecli"
+    "ms-python.python",
+    "ms-azuretools.vscode-azurecli",
+    "ms-vscode.azurecli"
+
     ],
     "postCreateCommand": "az --version && azd version"
 }

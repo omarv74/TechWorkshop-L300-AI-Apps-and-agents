@@ -8,5 +8,6 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 # Install Azure Developer CLI (azd)
 RUN curl -fsSL https://aka.ms/install-azd.sh | bash
 
-# [Optional] Install any other dependencies here
-# RUN apt-get update && apt-get install -y <package-name>
+
+# Install additional tools if needed
+RUN pip install --upgrade pip
