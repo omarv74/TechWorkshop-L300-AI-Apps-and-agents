@@ -16,49 +16,70 @@ var webAppSku = 'S1'
 var registryName = '${uniqueString(resourceGroup().id)}cosureg'
 var registrySku = 'Standard'
 
-var locations = [
-  {
-    locationName: location
-    failoverPriority: 0
-    isZoneRedundant: false
-  }
-]
+// =============================================================================
+// AZURE VERIFIED MODULES (AVM) MIGRATION
+// =============================================================================
+// This Bicep template has been updated to leverage Azure Verified Modules (AVM)
+// from the public Bicep registry wherever possible. AVM provides enterprise-grade,
+// pre-validated, and maintained Bicep modules following Microsoft best practices.
+//
+// Resources migrated to AVM:
+// - Cosmos DB (avm/res/document-db/database-account)
+// - Storage Account (avm/res/storage/storage-account)
+// - AI Search Service (avm/res/search/search-service)
+// - Log Analytics Workspace (avm/res/operational-insights/workspace)
+// - Application Insights (avm/res/insights/component)
+// - Container Registry (avm/res/container-registry/registry)
+// - App Service Plan (avm/res/web/serverfarm)
+// - App Service (avm/res/web/site)
+//
+// Resources kept as native Bicep:
+// - AI Foundry / Cognitive Services (no stable AVM module available yet)
+//
+// Benefits of using AVM:
+// - Enterprise-ready: Follows Microsoft best practices and design patterns
+// - Well-tested: Modules are thoroughly tested and validated
+// - Maintained: Regular updates and security patches from Microsoft
+// - Consistent: Standardized parameters and outputs across modules
+// - Feature-rich: Built-in support for diagnostic settings, RBAC, and more
+//
+// Learn more: https://aka.ms/avm
+// =============================================================================
 
-@description('Creates an Azure Cosmos DB NoSQL account.')
-resource cosmosDbAccount 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' = {
-  name: cosmosDbName
-  location: location
-  kind: 'GlobalDocumentDB'
-  properties: {
+
+@description('Creates an Azure Cosmos DB NoSQL account using AVM.')
+module cosmosDb 'br/public:avm/res/document-db/database-account:0.9.0' = {
+  name: '${uniqueString(deployment().name, location)}-cosmosdb'
+  params: {
+    name: cosmosDbName
+    location: location
+    sqlDatabases: [
+      {
+        name: cosmosDbDatabaseName
+      }
+    ]
     consistencyPolicy: {
       defaultConsistencyLevel: 'Session'
     }
-    databaseAccountOfferType: 'Standard'
-    locations: locations
+    locations: [
+      {
+        locationName: location
+        failoverPriority: 0
+        isZoneRedundant: false
+      }
+    ]
     disableLocalAuth: false
   }
 }
 
-@description('Creates an Azure Cosmos DB NoSQL API database.')
-resource cosmosDbDatabase 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2023-04-15' = {
-  parent: cosmosDbAccount
-  name: cosmosDbDatabaseName
-  properties: {
-    resource: {
-      id: cosmosDbDatabaseName
-    }
-  }
-}
-
-@description('Creates an Azure Storage account.')
-resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
-  name: storageAccountName
-  location: location
-  sku: {
-    name: 'Standard_LRS'
-  }
-  kind: 'StorageV2'
-  properties: {
+@description('Creates an Azure Storage account using AVM.')
+module storageAccount 'br/public:avm/res/storage/storage-account:0.14.3' = {
+  name: '${uniqueString(deployment().name, location)}-storage'
+  params: {
+    name: storageAccountName
+    location: location
+    skuName: 'Standard_LRS'
+    kind: 'StorageV2'
     accessTier: 'Hot'
   }
 }
@@ -99,76 +120,75 @@ resource aiProject 'Microsoft.CognitiveServices/accounts/projects@2025-04-01-pre
   properties: {}
 }
 
-@description('Creates an Azure AI Search service.')
-resource searchService 'Microsoft.Search/searchServices@2023-11-01' = {
-  name: searchServiceName
-  location: location
-  sku: {
-    name: 'standard'
+@description('Creates an Azure AI Search service using AVM.')
+module searchService 'br/public:avm/res/search/search-service:0.9.0' = {
+  name: '${uniqueString(deployment().name, location)}-search'
+  params: {
+    name: searchServiceName
+    location: location
+    sku: 'standard'
   }
 }
 
-@description('Creates an Azure Log Analytics workspace.')
-resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2023-09-01' = {
-  name: logAnalyticsName
-  location: location
-  properties: {
-    sku: {
-      name: 'PerGB2018'
-    }
-    retentionInDays: 90
-    workspaceCapping: {
-      dailyQuotaGb: 1
-    }
+@description('Creates an Azure Log Analytics workspace using AVM.')
+module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0.9.1' = {
+  name: '${uniqueString(deployment().name, location)}-loganalytics'
+  params: {
+    name: logAnalyticsName
+    location: location
+    skuName: 'PerGB2018'
+    dataRetention: 90
+    dailyQuotaGb: 1
   }
 }
 
-@description('Creates an Azure Application Insights resource.')
-resource appInsights 'Microsoft.Insights/components@2020-02-02-preview' = {
-  name: appInsightsName
-  location: location
-  kind: 'web'
-  properties: {
-    Application_Type: 'web'
-    WorkspaceResourceId: logAnalyticsWorkspace.id
+@description('Creates an Azure Application Insights resource using AVM.')
+module appInsights 'br/public:avm/res/insights/component:0.5.0' = {
+  name: '${uniqueString(deployment().name, location)}-appinsights'
+  params: {
+    name: appInsightsName
+    location: location
+    kind: 'web'
+    applicationType: 'web'
+    workspaceResourceId: logAnalyticsWorkspace.outputs.resourceId
   }
 }
 
-@description('Creates an Azure Container Registry.')
-resource containerRegistry 'Microsoft.ContainerRegistry/registries@2022-12-01' = {
-  name: registryName
-  location: location
-  sku: {
-    name: registrySku
-  }
-  properties: {
-    adminUserEnabled: true
+@description('Creates an Azure Container Registry using AVM.')
+module containerRegistry 'br/public:avm/res/container-registry/registry:0.7.0' = {
+  name: '${uniqueString(deployment().name, location)}-acr'
+  params: {
+    name: registryName
+    location: location
+    acrSku: registrySku
+    acrAdminUserEnabled: true
   }
 }
 
-@description('Creates an Azure App Service Plan.')
-resource appServicePlan 'Microsoft.Web/serverFarms@2022-09-01' = {
-  name: appServicePlanName
-  location: location
-  kind: 'linux'
-  properties: {
+@description('Creates an Azure App Service Plan using AVM.')
+module appServicePlan 'br/public:avm/res/web/serverfarm:0.4.0' = {
+  name: '${uniqueString(deployment().name, location)}-asp'
+  params: {
+    name: appServicePlanName
+    location: location
+    kind: 'linux'
     reserved: true
-  }
-  sku: {
-    name: webAppSku
+    skuName: webAppSku
   }
 }
 
-@description('Creates an Azure App Service for Zava.')
-resource appServiceApp 'Microsoft.Web/sites@2022-09-01' = {
-  name: webAppName
-  location: location
-  properties: {
-    serverFarmId: appServicePlan.id
+@description('Creates an Azure App Service for Zava using AVM.')
+module appServiceApp 'br/public:avm/res/web/site:0.12.0' = {
+  name: '${uniqueString(deployment().name, location)}-webapp'
+  params: {
+    name: webAppName
+    location: location
+    kind: 'app,linux,container'
+    serverFarmResourceId: appServicePlan.outputs.resourceId
     httpsOnly: true
     clientAffinityEnabled: false
     siteConfig: {
-      linuxFxVersion: 'DOCKER|${containerRegistry.name}.azurecr.io/${uniqueString(resourceGroup().id)}/techworkshopl300/zava'
+      linuxFxVersion: 'DOCKER|${containerRegistry.outputs.name}.azurecr.io/${uniqueString(resourceGroup().id)}/techworkshopl300/zava'
       http20Enabled: true
       minTlsVersion: '1.2'
       appCommandLine: ''
@@ -179,30 +199,29 @@ resource appServiceApp 'Microsoft.Web/sites@2022-09-01' = {
         }
         {
           name: 'DOCKER_REGISTRY_SERVER_URL'
-          value: 'https://${containerRegistry.name}.azurecr.io'
+          value: 'https://${containerRegistry.outputs.name}.azurecr.io'
         }
         {
           name: 'DOCKER_REGISTRY_SERVER_USERNAME'
-          value: containerRegistry.name
+          value: containerRegistry.outputs.name
         }
         {
           name: 'DOCKER_REGISTRY_SERVER_PASSWORD'
-          value: containerRegistry.listCredentials().passwords[0].value
+          value: containerRegistry.outputs.loginServer
         }
         {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-          value: appInsights.properties.InstrumentationKey
+          value: appInsights.outputs.instrumentationKey
         }
-        ]
-      }
+      ]
     }
+  }
 }
 
-
-output cosmosDbEndpoint string = cosmosDbAccount.properties.documentEndpoint
-output storageAccountName string = storageAccount.name
-output searchServiceName string = searchService.name
-output container_registry_name string = containerRegistry.name
-output application_name string = appServiceApp.name
-output application_url string = appServiceApp.properties.hostNames[0]
+output cosmosDbEndpoint string = cosmosDb.outputs.endpoint
+output storageAccountName string = storageAccount.outputs.name
+output searchServiceName string = searchService.outputs.name
+output container_registry_name string = containerRegistry.outputs.name
+output application_name string = appServiceApp.outputs.name
+output application_url string = appServiceApp.outputs.defaultHostname
 
