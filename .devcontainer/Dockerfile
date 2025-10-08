@@ -18,6 +18,6 @@ RUN apt update
 # 	&& mv ./bicep /usr/local/bin/bicep
 
 # Verify installation
-RUN bicep --version
+# RUN bicep --version
 
 RUN apt -y install python3 
