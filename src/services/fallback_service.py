@@ -1,4 +1,4 @@
-def call_fallback(llm_client, fallback_prompt: str, gpt_deployment = "gpt-4o"):
+def call_fallback(llm_client, fallback_prompt: str, gpt_deployment = "gpt-4.1"):
     """Call the fallback model and return its reply."""
     chat_prompt = [    
         {
@@ -23,7 +23,7 @@ def call_fallback(llm_client, fallback_prompt: str, gpt_deployment = "gpt-4o"):
         stream=False)
     return completion.choices[0].message.content
 
-def cora_fallback(llm_client, fallback_prompt: str, gpt_deployment = "gpt-4o"):
+def cora_fallback(llm_client, fallback_prompt: str, gpt_deployment = "gpt-4.1"):
     """Call the fallback model for cora and return its reply."""
     chat_prompt = [    
         {
