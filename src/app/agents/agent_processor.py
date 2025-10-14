@@ -15,7 +15,6 @@ from azure.ai.projects.models import (
 from tools.imageCreationTool import create_image
 from tools.discountLogic import calculate_discount
 from tools.inventoryCheck import inventory_check
-from tools. understandVideo import get_video_summary
 from tools.aiSearchTools import product_recommendations
 
 from opentelemetry import trace
@@ -59,7 +58,7 @@ class AgentProcessor:
         
         # Create new toolset based on agent type
         if agent_type == "interior_designer":
-            interior_functions: Set[Callable[..., Any]] = {create_image, product_recommendations, get_video_summary}
+            interior_functions: Set[Callable[..., Any]] = {create_image, product_recommendations}
             functions = FunctionTool(interior_functions)
         elif agent_type == "customer_loyalty":
             loyalty_functions: Set[Callable[..., Any]] = {calculate_discount}

@@ -14,8 +14,7 @@ import orjson  # Faster JSON library
 from openai import AzureOpenAI
 from app.tools.aiSearchTools import product_recommendations
 from app.tools.understandImage import get_image_description
-from app.tools.understandVideo import get_video_summary
-from app.tools.singleAgentExample import generate_response
+#from app.tools.singleAgentExample import generate_response
 from azure.core.credentials import AzureKeyCredential
 import asyncio
 import datetime
