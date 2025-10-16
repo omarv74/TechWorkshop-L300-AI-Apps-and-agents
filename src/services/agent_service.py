@@ -1,4 +1,4 @@
-from src.agents.agent_processor import AgentProcessor
+from app.agents.agent_processor import AgentProcessor
 from typing import Dict
 
 _agent_processor_cache: Dict[str, AgentProcessor] = {}

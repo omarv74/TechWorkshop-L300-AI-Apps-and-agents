@@ -6,7 +6,7 @@ AZURE_OPENAI_KEY=""
 AZURE_OPENAI_API_VERSION="2024-12-01-preview"
 
 AZURE_AI_AGENT_ENDPOINT=""
-AZURE_AI_AGENT_MODEL_DEPLOYMENT_NAME="gpt-4o"
+AZURE_AI_AGENT_MODEL_DEPLOYMENT_NAME="gpt-4.1"
 AZURE_AI_AGENT_API_VERSION="2024-12-01-preview"
 
 # Agent IDs
@@ -15,9 +15,9 @@ customer_loyalty=""
 inventory_agent=""
 cora=""
 
-# GPT-4o credentials
+# GPT-4.1 credentials
 gpt_endpoint=""
-gpt_deployment="gpt-4o"
+gpt_deployment="gpt-4.1"
 gpt_api_key=""
 gpt_api_version="2024-12-01-preview"
 

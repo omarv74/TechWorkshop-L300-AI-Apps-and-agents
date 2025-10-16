@@ -5,7 +5,7 @@ nav_order: 8
 has_children: true
 ---
 
-# Exercise 07 - Resource cleanup
+# Exercise 07: Resource cleanup
 
 ## Scenario
 

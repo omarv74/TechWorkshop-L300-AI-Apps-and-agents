@@ -5,7 +5,7 @@ nav_order: 2
 has_children: true
 ---
 
-# Exercise 01 - Deploy and configure resources
+# Exercise 01: Deploy and configure resources
 
 ## Scenario
 

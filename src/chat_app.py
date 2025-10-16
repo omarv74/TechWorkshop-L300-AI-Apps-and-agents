@@ -5,17 +5,16 @@ from dotenv import load_dotenv
 from azure.ai.projects import AIProjectClient
 from azure.identity import DefaultAzureCredential
 from azure.ai.inference.models import SystemMessage, UserMessage
-from src.agents.agent_processor import AgentProcessor
+from app.agents.agent_processor import AgentProcessor
 from azure.ai.inference import ChatCompletionsClient
 from azure.core.credentials import AzureKeyCredential
 from collections import deque
 from typing import Deque, Tuple, Optional, Dict
 import orjson  # Faster JSON library
 from openai import AzureOpenAI
-from src.tools.aiSearchTools import product_recommendations
-from src.tools.understandImage import get_image_description
-from src.tools.understandVideo import get_video_summary
-from src.tools.singleAgentExample import generate_response
+from app.tools.aiSearchTools import product_recommendations
+from app.tools.understandImage import get_image_description
+#from app.tools.singleAgentExample import generate_response
 from azure.core.credentials import AzureKeyCredential
 import asyncio
 import datetime
@@ -26,7 +25,7 @@ from opentelemetry.trace import SpanKind
 from azure.ai.agents.telemetry import trace_function
 from utils.history_utils import format_chat_history, redact_bad_prompts_in_history, clean_conversation_history
 from utils.response_utils import extract_bot_reply, parse_agent_response, merge_cart_and_cora
-from tools.imageCreationTool import create_image
+from app.tools.imageCreationTool import create_image
 import logging
 import aiohttp
 from concurrent.futures import ThreadPoolExecutor
@@ -243,7 +242,7 @@ def call_router(router_client: ChatCompletionsClient, router_prompt: str, format
             log_timing("Router Call (Exception)", start_time, f"Exception: {str(e)[:50]}...")
             raise
 
-def call_fallback(llm_client, fallback_prompt: str, gpt_deployment = "gpt-4o"):
+def call_fallback(llm_client, fallback_prompt: str, gpt_deployment = "gpt-4.1"):
     """Call the fallback model and return its reply."""
     start_time = time.time()
     

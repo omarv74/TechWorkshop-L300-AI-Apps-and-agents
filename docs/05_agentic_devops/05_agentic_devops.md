@@ -5,7 +5,7 @@ nav_order: 6
 has_children: true
 ---
 
-# Exercise 05 - Agentic DevOps
+# Exercise 05: Agentic DevOps
 
 ## Scenario
 
